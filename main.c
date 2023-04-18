@@ -19,19 +19,27 @@ int main (void) {
 
 void snake_board(void)
 {
-  int i,j,k,p;
-  for(j=0;j<=height;j++)
+  int i,j,k;
+  for(j=0;j<=height;j++) //ulompi loop kiertää korkeuden verran
   {
-    for(i=0;i<=width;i++)
+    for(i=0;i<=width;i++) //sisempi loop kiertää leveyden verran
     {
-      p=1;
-      if(i == 0 || j == 0 || j == height || i == width)
+      if(i == 0 || j == 0 || j == height || i == width) //rajojen chekkaus
       {
-        printf("*");
+        printf("*"); //tulostetaan pelin seinät peli rajoille
+        if(i == width) // lisää väli jollei ole oikean puoleisessa seinässä
+        {
+          printf(" "); //tulostetaan väli
+        }
+      }
+      else
+      {
+        printf(" "); //kierroksen lopuksi väli
       }
     }
-    printf("\n");
+    printf("\n"); //uusi rivi ja kierros uudestaan
   }
+  
 
 }
 
