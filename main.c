@@ -4,6 +4,7 @@
 #include<fcntl.h>
 #include<ncurses.h>
 
+int width=50, height=50;
 void snake_board();
 void input_check();
 void move_snake();
@@ -12,14 +13,26 @@ void make_fruit();
 int main (void) {
     
     snake_board();
-    printf("snake");
 
     return 0;
 }
 
 void snake_board(void)
 {
-  //Tänne koodi, joka tulostaa pelipöydän
+  int i,j,k,p;
+  for(j=0;j<=height;j++)
+  {
+    for(i=0;i<=width;i++)
+    {
+      p=1;
+      if(i == 0 || j == 0 || j == height || i == width)
+      {
+        printf("*");
+      }
+    }
+    printf("\n");
+  }
+
 }
 
 void input_check(void)
