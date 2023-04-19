@@ -48,28 +48,17 @@ void snake_board(void)
       {
         printf("#"); //tulostetaan pelin seinät peli rajoille
         if(i == width) // lisää väli jollei ole oikean puoleisessa seinässä
-        {
-            if(i == 0 || j == 0 || j == height || i == width) //rajojen chekkaus
-            {
-                printf("#"); //tulostetaan pelin seinät peli rajoille
-                if(i == width) // lisää väli jollei ole oikean puoleisessa seinässä
-                {
-                    printf(" "); //tulostetaan väli
-                }
-            } 
-            else if(i == fruit_x && j == fruit_y) //tulostetaan hedelmä jos kordinaatit kohtaavat
-            {
-                printf("*"); //hedelmä
-            }
-            else if(i == head_x && j == head_y)
-            {
-                printf("Q"); //madon pää
-            }
-            else
-            {
-                printf(" "); //kierroksen lopuksi väli muuten tulostaa vasemman seinän viereen oikean
-            }
-        }
+          {
+            printf(" "); //tulostetaan väli
+          }
+      } 
+      else if(i == fruit_x && j == fruit_y) //tulostetaan hedelmä jos kordinaatit kohtaavat
+      {
+          printf("*"); //hedelmä
+      }
+      else if(i == head_x && j == head_y)
+      {
+          printf("Q"); //madon pää
       }
       else if(i == head_x && j == head_y) //mikäli ruutu vastaa pään sijaintia tulosta pää
       {
@@ -89,12 +78,14 @@ void snake_board(void)
         {
           printf(" ");
         }
+        
       }
 /*       else
       {
         printf(" "); //kierroksen lopuksi väli muuten tulostaa vasemman seinän viereen oikean
       } */
     }
+    printf("\n");
   }
 }
 
