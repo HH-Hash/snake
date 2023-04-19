@@ -21,6 +21,7 @@ void fruit_collision(void);
 void init_game(void); //käärmeen alustus pelipöydälle
 
 int main (void) {
+  worm_size = 5;
     init_game();
     make_fruit();
     while(!gameover) //peli loop pyörii, kunnes gameover
@@ -37,10 +38,16 @@ int main (void) {
 
 void snake_board(void)
 {
-    int i,j,k;
-    for(j = 0; j <= height; j++) //ulompi loop kiertää korkeuden verran
+  int i, j, k, no_body;
+  for(j = 0; j <= height; j++) //ulompi loop kiertää korkeuden verran
+  {
+    for(i = 0; i <= width; i++) //sisempi loop kiertää leveyden verran
     {
-        for(i = 0; i <= width; i++) //sisempi loop kiertää leveyden verran
+      no_body=1;
+      if(i == 0 || j == 0 || j == height || i == width) //rajojen chekkaus
+      {
+        printf("#"); //tulostetaan pelin seinät peli rajoille
+        if(i == width) // lisää väli jollei ole oikean puoleisessa seinässä
         {
             if(i == 0 || j == 0 || j == height || i == width) //rajojen chekkaus
             {
@@ -63,8 +70,32 @@ void snake_board(void)
                 printf(" "); //kierroksen lopuksi väli muuten tulostaa vasemman seinän viereen oikean
             }
         }
-        printf("\n"); //uusi rivi ja kierros uudestaan
+      }
+      else if(i == head_x && j == head_y) //mikäli ruutu vastaa pään sijaintia tulosta pää
+      {
+        printf("Q");
+      }
+      else
+      {
+        for(k = 0; k < worm_size; k++) //tulostetaan käärmeen kroppa
+        {
+          if(i == body_x[k] && j == body_y[k]) //mikäli ruutu vastaa kroppaa tulosta kroppa
+          {
+          printf("o"); 
+          no_body = 0; //vaihdetaan ei kroppaa epätodeksi
+          }
+        }
+        if(no_body) //mikäli ei käärmeen kroppa tosi tulostaa tyhjää
+        {
+          printf(" ");
+        }
+      }
+/*       else
+      {
+        printf(" "); //kierroksen lopuksi väli muuten tulostaa vasemman seinän viereen oikean
+      } */
     }
+  }
 }
 
 /**
