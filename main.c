@@ -5,7 +5,7 @@
 int score = 0;
 int gameover = 0;
 int fruit_x, fruit_y;
-int body_x[30], body_y[30]; //int array käärmeen kropalle, kroppa max koko pelilaudan koko
+int body_x[100], body_y[100]; //int array käärmeen kropalle, kroppa max koko pelilaudan koko
 int head_x, head_y;
 int width = 30, height = 30;
 int worm_size = 1;
