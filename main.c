@@ -22,6 +22,7 @@ void init_game(void); //käärmeen alustus pelipöydälle
 
 int main (void) {
   worm_size = 5;
+  int test_rounds = 4;
     init_game();
     make_fruit();
     while(!gameover) //peli loop pyörii, kunnes gameover
@@ -31,7 +32,11 @@ int main (void) {
       input_check();
       move_snake();
       fruit_collision();
-      gameover = 1;
+      test_rounds--;
+      if(test_rounds<=0){
+        gameover = 1;
+      }
+      
     }
     return 0;
 }
@@ -87,6 +92,7 @@ void snake_board(void)
     }
     printf("\n");
   }
+  fflush(stdout); // tyhjennetään bufferi, jotta uudet kierrokset tulostuu oikein
 }
 
 /**
@@ -136,7 +142,7 @@ void init_game(void) {
 
 void move_snake(void)
 {
-  int x1,x2,y1,y2,i;
+  int x1, x2, y1, y2, i;
   if(worm_size == 1)
   {
     body_x[0] = head_x; //määritellään pää arrayn ensimmäiseksi
@@ -155,6 +161,21 @@ void move_snake(void)
       x1 = x2;
       y1 = y2;
     }
+  }
+  switch (dir) 
+  {
+    case 1:
+      head_y--;
+      break;
+    case 2:
+      head_x++;
+      break;
+    case 3:
+      head_y++;
+      break;
+    case 4:
+      head_x--;
+      break;
   }
 }
 
