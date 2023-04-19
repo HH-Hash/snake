@@ -9,15 +9,15 @@ int body_x[50], body_y[50]; //int array käärmeen kropalle, kroppa max koko pel
 int width = 50, height = 50;
 int gameover = 0, size = 1;
 int dir = 1;
-void snake_board();
-void input_check();
-void move_snake();
-void make_fruit();
+void snake_board(void);
+void input_check(void);
+char kb_press(void);
+void move_snake(void);
+void make_fruit(void);
 void init_game(void); //käärmeen alustus pelipöydälle
 
 int main (void) {
     init_game();
-
     while(!gameover) //peli loop pyörii, kunnes gameover
     {
       move_snake();
@@ -26,7 +26,6 @@ int main (void) {
       kb_press();
       input_check();
     }
-
     return 0;
 }
 
@@ -88,6 +87,17 @@ void input_check(void)
     }
 }
 
+char kb_press(void) {
+    initscr();
+    timeout(50);
+    noecho();
+    cbreak();
+    keypad(stdscr, TRUE);
+    char key = getch();
+    endwin();
+    return key;
+}
+
 //lisätään käärmeen pää keskelle pelipöytää
 void init_game(void) { 
     head_x = height / 2;
@@ -116,7 +126,6 @@ void move_snake(void)
       y1 = y2;
     }
   }
-
 }
 
 void make_fruit(void)
