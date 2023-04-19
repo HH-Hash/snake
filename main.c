@@ -4,59 +4,67 @@
 #include<fcntl.h>
 #include<ncurses.h>
 
+int score = 0;
 int head_x, head_y;
+int fruit_x, fruit_y;
+int speed = 100000;
 int body_x[50], body_y[50]; //int array käärmeen kropalle, kroppa max koko pelilaudan koko
 int width = 50, height = 50;
-int gameover = 0, size = 1;
+int gameover = 0, worm_size = 1;
 int dir = 1;
 void snake_board(void);
 void input_check(void);
 char kb_press(void);
 void move_snake(void);
 void make_fruit(void);
+void fruit_collision(void);
 void init_game(void); //käärmeen alustus pelipöydälle
 
 int main (void) {
     init_game();
+    make_fruit();
     while(!gameover) //peli loop pyörii, kunnes gameover
     {
-      move_snake();
       snake_board();
-      gameover = 1;
       kb_press();
       input_check();
+      move_snake();
+      fruit_collision();
+      gameover = 1;
     }
     return 0;
 }
 
 void snake_board(void)
 {
-  int i,j,k;
-  for(j = 0; j <= height; j++) //ulompi loop kiertää korkeuden verran
-  {
-    for(i = 0; i <= width; i++) //sisempi loop kiertää leveyden verran
+    int i,j,k;
+    for(j = 0; j <= height; j++) //ulompi loop kiertää korkeuden verran
     {
-      if(i == 0 || j == 0 || j == height || i == width) //rajojen chekkaus
-      {
-        printf("#"); //tulostetaan pelin seinät peli rajoille
-        if(i == width) // lisää väli jollei ole oikean puoleisessa seinässä
+        for(i = 0; i <= width; i++) //sisempi loop kiertää leveyden verran
         {
-          printf(" "); //tulostetaan väli
+            if(i == 0 || j == 0 || j == height || i == width) //rajojen chekkaus
+            {
+                printf("#"); //tulostetaan pelin seinät peli rajoille
+                if(i == width) // lisää väli jollei ole oikean puoleisessa seinässä
+                {
+                    printf(" "); //tulostetaan väli
+                }
+            } 
+            else if(i == fruit_x && j == fruit_y) //tulostetaan hedelmä jos kordinaatit kohtaavat
+            {
+                printf("*"); //hedelmä
+            }
+            else if(i == head_x && j == head_y)
+            {
+                printf("Q"); //madon pää
+            }
+            else
+            {
+                printf(" "); //kierroksen lopuksi väli muuten tulostaa vasemman seinän viereen oikean
+            }
         }
-      }
-      else if(i == head_x && j == head_y)
-      {
-        printf("Q");
-      }
-      else
-      {
-        printf(" "); //kierroksen lopuksi väli muuten tulostaa vasemman seinän viereen oikean
-      }
+        printf("\n"); //uusi rivi ja kierros uudestaan
     }
-    printf("\n"); //uusi rivi ja kierros uudestaan
-  }
-  
-
 }
 
 /**
@@ -107,16 +115,16 @@ void init_game(void) {
 void move_snake(void)
 {
   int x1,x2,y1,y2,i;
-  if(size==1)
+  if(worm_size == 1)
   {
-    body_x[0]=head_x; //määritellään pää arrayn ensimmäiseksi
-    body_y[0]=head_y; //myös y suunnassa, kun peli alkaa
+    body_x[0] = head_x; //määritellään pää arrayn ensimmäiseksi
+    body_y[0] = head_y; //myös y suunnassa, kun peli alkaa
   }
   else 
   {
     x1 = head_x; //pään paikka x suunta
     y1 = head_y; //pään paikka y suunta
-    for(i = 0; i < size;i++) //pään paikasta kasvatetaan array size verran
+    for(i = 0; i < worm_size; i++) //pään paikasta kasvatetaan array worm_size verran
     {
       x2 = body_x[i];
       y2 = body_y[i];
@@ -128,7 +136,24 @@ void move_snake(void)
   }
 }
 
+//Luo uusia hedelmiä pelipöydälle
 void make_fruit(void)
 {
-  //Tänne koodi, jolla tehdään ruokaa pelipöydälle
+    resetfruit_x: fruit_x = rand() % 10;
+    if(fruit_x == 0 || fruit_x == width)
+        goto resetfruit_x;
+    resetfruit_y: fruit_y = rand() % 10;
+    if(fruit_y == 0 || fruit_y == height)
+        goto resetfruit_y; 
 }
+
+void fruit_collision(void) {
+    if(head_x == fruit_x && head_y == fruit_y) {
+        score += 5;
+        worm_size++;
+        if(speed > 50000)
+            speed -= 500;
+            make_fruit();
+    }
+}
+
