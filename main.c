@@ -4,15 +4,20 @@
 #include<fcntl.h>
 #include<ncurses.h>
 
-int width=50, height=50;
+int width=50, height=50, gameover=0;
 void snake_board();
 void input_check();
 void move_snake();
 void make_fruit();
 
 int main (void) {
-    
-    snake_board();
+
+    while(!gameover) //peli loop pyörii, kunnes gameover
+    {
+      snake_board();
+      gameover=1;
+      
+    }
 
     return 0;
 }
@@ -26,7 +31,7 @@ void snake_board(void)
     {
       if(i == 0 || j == 0 || j == height || i == width) //rajojen chekkaus
       {
-        printf("*"); //tulostetaan pelin seinät peli rajoille
+        printf("#"); //tulostetaan pelin seinät peli rajoille
         if(i == width) // lisää väli jollei ole oikean puoleisessa seinässä
         {
           printf(" "); //tulostetaan väli
@@ -34,7 +39,7 @@ void snake_board(void)
       }
       else
       {
-        printf(" "); //kierroksen lopuksi väli
+        printf(" "); //kierroksen lopuksi väli muuten tulostaa vasemman seinän viereen oikean
       }
     }
     printf("\n"); //uusi rivi ja kierros uudestaan
