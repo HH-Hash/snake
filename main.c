@@ -6,7 +6,9 @@
 
 int head_x, head_y;
 int body_x[50], body_y[50]; //int array käärmeen kropalle, kroppa max koko pelilaudan koko
-int width = 50, height = 50, gameover = 0, size = 1;
+int width = 50, height = 50;
+int gameover = 0, size = 1;
+int dir = 1;
 void snake_board();
 void input_check();
 void move_snake();
@@ -14,14 +16,15 @@ void make_fruit();
 void init_game(void); //käärmeen alustus pelipöydälle
 
 int main (void) {
-  init_game();
+    init_game();
 
     while(!gameover) //peli loop pyörii, kunnes gameover
     {
       move_snake();
       snake_board();
-      gameover=1;
-      
+      gameover = 1;
+      kb_press();
+      input_check();
     }
 
     return 0;
@@ -57,9 +60,32 @@ void snake_board(void)
 
 }
 
+/**
+Käsittelee näppäimen painalluksen sekä määrittää mihin suuntaan mato liikkuu.
+Dir-muuttuja on numeerinen muuttuja, joka symboloi madon suuntaa.
+Suunnat ovat 1,2,3 ja 4 eli ylös, oikea, alas ja vasen.
+If-lohkot tarvitaan estämään vastakkaisten liikkeiden samanaikaisuus.
+**/
 void input_check(void)
-{
-  //Täällä chekataan käyttäjän näppäin painallukset
+{    
+    switch (kb_press()) 
+    {
+        case 'w':
+            if(dir != 3)
+                dir = 1;
+            break;
+        case 'd':
+            if(dir != 4)
+                dir = 2;
+            break;
+        case 's':
+            if(dir != 1)
+                dir = 3;
+            break;
+        case 'a':
+            if(dir != 2)
+                dir = 4;
+    }
 }
 
 //lisätään käärmeen pää keskelle pelipöytää
