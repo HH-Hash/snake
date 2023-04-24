@@ -1,4 +1,4 @@
-# C sudoku
+# C snake
 
 Old-school snake game in terminal which uses ncurses.h library to track user's keypresses.
 
